@@ -128,7 +128,7 @@ int main(int argc, char** argv) {
     }
     
 
-    h_centralized_print("#vivatC++", window_width());
+    h_centralized_print("Hello, world!", window_width());
     endl(2); h_print_line('-', width);
     endl(2);
 
