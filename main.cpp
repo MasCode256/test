@@ -1,63 +1,59 @@
-#include <iostream>
 #include <windows.h>
+#include <iostream>
 #include <string>
 #include <vector>
-#include <clocale> // Для setlocale
+#include <clocale>
 
 using namespace std;
 
 
-class q00 {
-	public:
-		char lang = 0;
-		
-		void printLn(vector<string> outv) {
-			if(lang < outv.size()) {
-				cout << outv[lang] << endl;
-			}
-		}
-		
-		void set_lang(char index, string lang) {
-			setlocale(LC_ALL, lang.c_str()); // Для Windows
-			lang = index;
-		}
-} out;
+HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
 
+
+void clear_console() {
+    system("cls");
+}
 
 void set_color(int textColor) {
-    HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
     SetConsoleTextAttribute(hConsole, textColor);
 }
 
-int main() {
-    std::cout << "This string was printed." << std::endl;
+size_t window_width() {
+    CONSOLE_SCREEN_BUFFER_INFO csbi;
+    GetConsoleScreenBufferInfo(hConsole, &csbi);
 
-    Sleep(2000);
-    set_color(12);
+    // РЁРёСЂРёРЅР° РѕРєРЅР° РєРѕРЅСЃРѕР»Рё
+    size_t width = csbi.srWindow.Right - csbi.srWindow.Left + 1;
+}
 
-    system("cls");
+void centralized_printLn(const string& str) {
+    size_t width = window_width();
+    size_t start_pos = (width > str.length()) ? (width / 2 - str.length() / 2) : 0;
+
     
-    out.set_lang(1, "Russian_Russia.1251");
-    out.printLn(std::vector<string>{"Hello, world!", "Привет, мир!"});
+    for(size_t i = 0; i < start_pos; i++) {
+        cout << " ";
+    }
+    cout << str << endl;
+}
 
-	set_color(7);
-    return 0;
+void centralized_print(const string& str) {
+    size_t width = window_width();
+    size_t start_pos = (width > str.length()) ? (width / 2 - str.length() / 2) : 0;
+
+
+    for(size_t i = 0; i < start_pos; i++) {
+        cout << " ";
+    }
+    cout << str;
 }
 
 
-/*0 — Черный
-1 — Синий
-2 — Зеленый
-3 — Голубой
-4 — Красный
-5 — Пурпурный
-6 — Желтый
-7 — Белый
-8 — Серый
-9 — Светло-синий
-10 — Светло-зеленый
-11 — Светло-голубой
-12 — Светло-красный
-13 — Светло-пурпурный
-14 — Светло-желтый
-15 — Ярко-белый*/
+int main(int argc, char** argv) {
+    clear_console();
+    set_color(10);
+    cout << "Window width: " << window_width() << endl;
+    centralized_print("Hello, world!");
+
+    set_color(7);
+}
