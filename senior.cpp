@@ -70,6 +70,50 @@ void endl(size_t count = 1) {
     return;
 }
 
+class switches {
+    public:
+    int pos = 0;
+    int max = 0;
+
+    vector<string> txt;
+
+    void up() {
+        if(pos - 1 < 0) {
+            pos = max;
+        } else 
+        {
+            pos--;
+        }
+    }
+
+    void down() {
+        if(pos + 1 > max) {
+            pos = 0;
+        } else 
+        {
+            pos++;
+        }
+    }
+
+    void print() {
+        for (size_t i = 0; i < txt.size(); i++)
+        {
+            if (pos == i)
+            {
+                set_background(10);
+            }
+            cout << txt[i];
+            set_background(0, 10);
+            cout << endl;
+        }
+    }
+
+    void pb(string str) {
+        txt.push_back(str);
+        max = txt.size() - 1;
+    }
+};
+
 
 int main(int argc, char** argv) {
     clear_console();
